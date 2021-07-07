@@ -1,0 +1,60 @@
+
+
+
+
+#define trigPin 6
+#define echoPin 7
+int ir1 = 11;
+int ir2 = 12;
+int motor1 = 2;
+int motor2 = 3;
+int sw = 10;
+int flag = 0;
+long duration, distance;
+void setup() {
+  Serial.begin(9600);
+  pinMode(ir1, INPUT);
+  pinMode(ir2, INPUT);
+  pinMode(sw, INPUT_PULLUP);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(motor1, OUTPUT);
+  pinMode(motor2, OUTPUT);
+}
+
+void loop() {
+  if ((digitalRead(ir1) == LOW) && (digitalRead(ir1) == LOW))
+  {
+    flag = 1;
+  }
+  else
+  {
+    digitalWrite(motor1, LOW);
+  }
+  if (flag == 1) {
+    digitalWrite(trigPin, LOW);
+    delayMicroseconds(20);
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(100);
+    digitalWrite(trigPin, LOW);
+    duration = pulseIn(echoPin, HIGH);
+    distance = (duration / 2) / 29.1;
+    Serial.print("Distance  ");
+    Serial.println(distance);
+    if (distance < 5) {
+      digitalWrite(motor1, HIGH);
+      delay(1500);
+      digitalWrite(motor1, LOW);
+      flag = 0;
+    }
+  }
+  if (digitalRead(sw) == LOW) {
+    digitalWrite(motor2, HIGH);
+    delay(5000);
+    digitalWrite(motor2, LOW);
+  }
+  else
+  {
+    digitalWrite(motor2, LOW);
+  }
+}
